@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.hust.offer100.mapper.PostBoxMapper" >
+  <resultMap id="BaseResultMap" type="cn.hust.offer100.pojo.PostBox" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="resume_id" property="resumeId" jdbcType="INTEGER" />
+    <result column="position_id" property="positionId" jdbcType="INTEGER" />
+    <result column="post_time" property="postTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, resume_id, position_id, post_time, status, reason
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.hust.offer100.pojo.PostBoxExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from post_box
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from post_box
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from post_box
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.hust.offer100.pojo.PostBoxExample" >
+    delete from post_box
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.hust.offer100.pojo.PostBox" >
+    insert into post_box (id, resume_id, position_id, 
+      post_time, status, reason
+      )
+    values (#{id,jdbcType=INTEGER}, #{resumeId,jdbcType=INTEGER}, #{positionId,jdbcType=INTEGER}, 
+      #{postTime,jdbcType=TIMESTAMP}, #{status,jdbcType=CHAR}, #{reason,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.hust.offer100.pojo.PostBox" >
+    insert into post_box
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="resumeId != null" >
+        resume_id,
+      </if>
+      <if test="positionId != null" >
+        position_id,
+      </if>
+      <if test="postTime != null" >
+        post_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="resumeId != null" >
+        #{resumeId,jdbcType=INTEGER},
+      </if>
+      <if test="positionId != null" >
+        #{positionId,jdbcType=INTEGER},
+      </if>
+      <if test="postTime != null" >
+        #{postTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.hust.offer100.pojo.PostBoxExample" resultType="java.lang.Integer" >
+    select count(*) from post_box
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update post_box
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.resumeId != null" >
+        resume_id = #{record.resumeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.positionId != null" >
+        position_id = #{record.positionId,jdbcType=INTEGER},
+      </if>
+      <if test="record.postTime != null" >
+        post_time = #{record.postTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=CHAR},
+      </if>
+      <if test="record.reason != null" >
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update post_box
+    set id = #{record.id,jdbcType=INTEGER},
+      resume_id = #{record.resumeId,jdbcType=INTEGER},
+      position_id = #{record.positionId,jdbcType=INTEGER},
+      post_time = #{record.postTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=CHAR},
+      reason = #{record.reason,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.hust.offer100.pojo.PostBox" >
+    update post_box
+    <set >
+      <if test="resumeId != null" >
+        resume_id = #{resumeId,jdbcType=INTEGER},
+      </if>
+      <if test="positionId != null" >
+        position_id = #{positionId,jdbcType=INTEGER},
+      </if>
+      <if test="postTime != null" >
+        post_time = #{postTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.hust.offer100.pojo.PostBox" >
+    update post_box
+    set resume_id = #{resumeId,jdbcType=INTEGER},
+      position_id = #{positionId,jdbcType=INTEGER},
+      post_time = #{postTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=CHAR},
+      reason = #{reason,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
