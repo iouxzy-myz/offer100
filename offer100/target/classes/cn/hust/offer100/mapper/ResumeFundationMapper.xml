@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.hust.offer100.mapper.ResumeFundationMapper" >
+  <resultMap id="BaseResultMap" type="cn.hust.offer100.pojo.ResumeFundation" >
+    <id column="resume_id" property="resumeId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_gender" property="userGender" jdbcType="VARCHAR" />
+    <result column="user_birthday" property="userBirthday" jdbcType="TIMESTAMP" />
+    <result column="user_education" property="userEducation" jdbcType="VARCHAR" />
+    <result column="user_workyears" property="userWorkyears" jdbcType="VARCHAR" />
+    <result column="user_city" property="userCity" jdbcType="VARCHAR" />
+    <result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+    <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+    <result column="user_image" property="userImage" jdbcType="VARCHAR" />
+    <result column="user_selfvaluation" property="userSelfvaluation" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    resume_id, user_id, user_name, user_gender, user_birthday, user_education, user_workyears, 
+    user_city, user_email, user_phone, user_image, user_selfvaluation
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.hust.offer100.pojo.ResumeFundationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from resume_fundation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from resume_fundation
+    where resume_id = #{resumeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from resume_fundation
+    where resume_id = #{resumeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.hust.offer100.pojo.ResumeFundationExample" >
+    delete from resume_fundation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.hust.offer100.pojo.ResumeFundation" >
+    insert into resume_fundation (resume_id, user_id, user_name, 
+      user_gender, user_birthday, user_education, 
+      user_workyears, user_city, user_email, 
+      user_phone, user_image, user_selfvaluation
+      )
+    values (#{resumeId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{userGender,jdbcType=VARCHAR}, #{userBirthday,jdbcType=TIMESTAMP}, #{userEducation,jdbcType=VARCHAR}, 
+      #{userWorkyears,jdbcType=VARCHAR}, #{userCity,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, 
+      #{userPhone,jdbcType=VARCHAR}, #{userImage,jdbcType=VARCHAR}, #{userSelfvaluation,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.hust.offer100.pojo.ResumeFundation" >
+    insert into resume_fundation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="resumeId != null" >
+        resume_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userGender != null" >
+        user_gender,
+      </if>
+      <if test="userBirthday != null" >
+        user_birthday,
+      </if>
+      <if test="userEducation != null" >
+        user_education,
+      </if>
+      <if test="userWorkyears != null" >
+        user_workyears,
+      </if>
+      <if test="userCity != null" >
+        user_city,
+      </if>
+      <if test="userEmail != null" >
+        user_email,
+      </if>
+      <if test="userPhone != null" >
+        user_phone,
+      </if>
+      <if test="userImage != null" >
+        user_image,
+      </if>
+      <if test="userSelfvaluation != null" >
+        user_selfvaluation,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="resumeId != null" >
+        #{resumeId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userGender != null" >
+        #{userGender,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirthday != null" >
+        #{userBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userEducation != null" >
+        #{userEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="userWorkyears != null" >
+        #{userWorkyears,jdbcType=VARCHAR},
+      </if>
+      <if test="userCity != null" >
+        #{userCity,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null" >
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userImage != null" >
+        #{userImage,jdbcType=VARCHAR},
+      </if>
+      <if test="userSelfvaluation != null" >
+        #{userSelfvaluation,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.hust.offer100.pojo.ResumeFundationExample" resultType="java.lang.Integer" >
+    select count(*) from resume_fundation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update resume_fundation
+    <set >
+      <if test="record.resumeId != null" >
+        resume_id = #{record.resumeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userGender != null" >
+        user_gender = #{record.userGender,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userBirthday != null" >
+        user_birthday = #{record.userBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userEducation != null" >
+        user_education = #{record.userEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userWorkyears != null" >
+        user_workyears = #{record.userWorkyears,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userCity != null" >
+        user_city = #{record.userCity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userEmail != null" >
+        user_email = #{record.userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPhone != null" >
+        user_phone = #{record.userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userImage != null" >
+        user_image = #{record.userImage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userSelfvaluation != null" >
+        user_selfvaluation = #{record.userSelfvaluation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update resume_fundation
+    set resume_id = #{record.resumeId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      user_gender = #{record.userGender,jdbcType=VARCHAR},
+      user_birthday = #{record.userBirthday,jdbcType=TIMESTAMP},
+      user_education = #{record.userEducation,jdbcType=VARCHAR},
+      user_workyears = #{record.userWorkyears,jdbcType=VARCHAR},
+      user_city = #{record.userCity,jdbcType=VARCHAR},
+      user_email = #{record.userEmail,jdbcType=VARCHAR},
+      user_phone = #{record.userPhone,jdbcType=VARCHAR},
+      user_image = #{record.userImage,jdbcType=VARCHAR},
+      user_selfvaluation = #{record.userSelfvaluation,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.hust.offer100.pojo.ResumeFundation" >
+    update resume_fundation
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userGender != null" >
+        user_gender = #{userGender,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirthday != null" >
+        user_birthday = #{userBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userEducation != null" >
+        user_education = #{userEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="userWorkyears != null" >
+        user_workyears = #{userWorkyears,jdbcType=VARCHAR},
+      </if>
+      <if test="userCity != null" >
+        user_city = #{userCity,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null" >
+        user_email = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userImage != null" >
+        user_image = #{userImage,jdbcType=VARCHAR},
+      </if>
+      <if test="userSelfvaluation != null" >
+        user_selfvaluation = #{userSelfvaluation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where resume_id = #{resumeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.hust.offer100.pojo.ResumeFundation" >
+    update resume_fundation
+    set user_id = #{userId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_gender = #{userGender,jdbcType=VARCHAR},
+      user_birthday = #{userBirthday,jdbcType=TIMESTAMP},
+      user_education = #{userEducation,jdbcType=VARCHAR},
+      user_workyears = #{userWorkyears,jdbcType=VARCHAR},
+      user_city = #{userCity,jdbcType=VARCHAR},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      user_image = #{userImage,jdbcType=VARCHAR},
+      user_selfvaluation = #{userSelfvaluation,jdbcType=VARCHAR}
+    where resume_id = #{resumeId,jdbcType=INTEGER}
+  </update>
+</mapper>
