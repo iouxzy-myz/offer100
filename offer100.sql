@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 27/02/2018 20:53:26
+ Date: 28/02/2018 10:55:03
 */
 
 SET NAMES utf8mb4;
@@ -78,6 +78,7 @@ CREATE TABLE `manager`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '本表ID',
   `user_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '管理员登录名，唯一',
   `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '登录密码',
+  `usertype` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '管理员类型',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
