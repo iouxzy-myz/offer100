@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hust.offer100.dao.PositionMapper">
+  <resultMap id="BaseResultMap" type="cn.hust.offer100.pojo.Position">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="enterprise_id" jdbcType="INTEGER" property="enterpriseId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="position_name" jdbcType="VARCHAR" property="positionName" />
+    <result column="position_category" jdbcType="VARCHAR" property="positionCategory" />
+    <result column="position_num" jdbcType="INTEGER" property="positionNum" />
+    <result column="position_address" jdbcType="VARCHAR" property="positionAddress" />
+    <result column="position_city" jdbcType="VARCHAR" property="positionCity" />
+    <result column="position_temptation" jdbcType="VARCHAR" property="positionTemptation" />
+    <result column="position_details" jdbcType="VARCHAR" property="positionDetails" />
+    <result column="position_minwage" jdbcType="INTEGER" property="positionMinwage" />
+    <result column="position_maxwage" jdbcType="INTEGER" property="positionMaxwage" />
+    <result column="position_experience" jdbcType="VARCHAR" property="positionExperience" />
+    <result column="position_education" jdbcType="VARCHAR" property="positionEducation" />
+    <result column="position_creattime" jdbcType="TIMESTAMP" property="positionCreattime" />
+    <result column="position_nature" jdbcType="VARCHAR" property="positionNature" />
+    <result column="position_status" jdbcType="CHAR" property="positionStatus" />
+    <result column="position_reason" jdbcType="VARCHAR" property="positionReason" />
+    <result column="num" jdbcType="VARCHAR" property="num" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
+  </resultMap>
+ 
+ 
+ <resultMap id="resultAccept" type="cn.hust.offer100.dto.Accept">
+ <id column="resume_id" jdbcType="INTEGER" property="resumeId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_gender" jdbcType="VARCHAR" property="userGender" />
+    <result column="user_birthday" jdbcType="VARCHAR" property="userBirthday" />
+    <result column="user_education" jdbcType="VARCHAR" property="userEducation" />
+    <result column="user_workyears" jdbcType="VARCHAR" property="userWorkyears" />
+    <result column="user_city" jdbcType="VARCHAR" property="userCity" />
+    <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="user_image" jdbcType="VARCHAR" property="userImage" />
+    <result column="user_selfvaluation" jdbcType="VARCHAR" property="userSelfvaluation" />
+    <result column="positionName" jdbcType="VARCHAR" property="positionName" />
+    <result column="postTime" jdbcType="VARCHAR" property="postTime" />
+    <result column="postId" jdbcType="VARCHAR" property="postId" />
+ </resultMap>
+   <select id="findList" resultMap='BaseResultMap'>
+  	SELECT p.*,i.num,date_format(p.position_creattime, '%Y-%m-%d %H:%i:%s') as time FROM position as p LEFT JOIN 
+	(SELECT position_id,count(position_id) as num FROM post_box as i GROUP BY i.position_id) as i ON 
+	p.id=i.position_id
+  	<where>
+  	  <if test="userId != null and userId''">
+       and p.user_id = #{userId}
+      </if>
+      <if test="positionName != null and positionName!=''">
+       and p.position_name like concat('%',#{positionName},'%')
+      </if>
+      <if test="positionStatus != null and positionStatus!=''">
+       and p.position_status = #{positionStatus,jdbcType=CHAR}
+      </if>
+      </where>
+  </select>
+ 
+ <select id="save">
+      insert into position ( enterprise_id, user_id, 
+      position_name, position_category, position_num, 
+      position_address, position_city, position_temptation, 
+      position_details, position_minwage, position_maxwage, 
+      position_experience, position_education, 
+      position_creattime, position_nature, position_status, 
+      position_reason)
+    values ( #{enterpriseId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{positionName,jdbcType=VARCHAR}, #{positionCategory,jdbcType=VARCHAR}, #{positionNum,jdbcType=INTEGER}, 
+      #{positionAddress,jdbcType=VARCHAR}, #{positionCity,jdbcType=VARCHAR}, #{positionTemptation,jdbcType=VARCHAR}, 
+      #{positionDetails,jdbcType=VARCHAR}, #{positionMinwage,jdbcType=INTEGER}, #{positionMaxwage,jdbcType=INTEGER}, 
+      #{positionExperience,jdbcType=VARCHAR}, #{positionEducation,jdbcType=VARCHAR}, 
+      #{positionCreattime,jdbcType=TIMESTAMP}, #{positionNature,jdbcType=VARCHAR}, #{positionStatus,jdbcType=CHAR}, 
+      #{positionReason,jdbcType=VARCHAR})
+ </select>
+ <select id="update">
+  update position
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="positionName != null">
+        position_name = #{positionName,jdbcType=VARCHAR},
+      </if>
+      <if test="positionCategory != null">
+        position_category = #{positionCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="positionNum != null">
+        position_num = #{positionNum,jdbcType=INTEGER},
+      </if>
+      <if test="positionAddress != null">
+        position_address = #{positionAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="positionCity != null">
+        position_city = #{positionCity,jdbcType=VARCHAR},
+      </if>
+      <if test="positionTemptation != null">
+        position_temptation = #{positionTemptation,jdbcType=VARCHAR},
+      </if>
+      <if test="positionDetails != null">
+        position_details = #{positionDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="positionMinwage != null">
+        position_minwage = #{positionMinwage,jdbcType=INTEGER},
+      </if>
+      <if test="positionMaxwage != null">
+        position_maxwage = #{positionMaxwage,jdbcType=INTEGER},
+      </if>
+      <if test="positionExperience != null">
+        position_experience = #{positionExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="positionEducation != null">
+        position_education = #{positionEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="positionCreattime != null">
+        position_creattime = #{positionCreattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="positionNature != null">
+        position_nature = #{positionNature,jdbcType=VARCHAR},
+      </if>
+      <if test="positionStatus != null">
+        position_status = #{positionStatus,jdbcType=CHAR},
+      </if>
+      <if test="positionReason != null">
+        position_reason = #{positionReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+ </select>
+ 
+ <select id="delect">
+  update position set position_status=#{positionStatus} where id=#{id}
+ </select>
+ 
+ <select id="get">
+ select *from position where id=#{id}
+ </select>
+ 
+ <select id="findEnterprise" resultType="java.lang.Integer">
+ select enterprise_id as enterpriseId from enterprise where user_id=#{userId}
+ </select>
+ 
+ <select id="findAccept" resultMap="resultAccept">
+ SELECT f.*,p.position_name as positionName,date_format(b.post_time, '%Y-%m-%d %H:%i:%s') as postTime 
+ ,b.id as postId
+ FROM 
+position as p  JOIN post_box as b on p.id=b.position_id 
+ JOIN resume_fundation as f ON f.resume_id=b.resume_id
+ <where>
+  and p.user_id=#{userId}
+  and p.position_status=#{positionStatus}
+  and b.status=#{status}
+  <if test="userName!=null and userName!=''">
+  and user_name like concat('%',#{userName},'%')
+  </if>
+ </where>
+ </select>
+ 
+ <select id="updateAccept">
+ 	update post_box as b set b.status=#{status} where id=#{id} 
+ </select>
+</mapper>
