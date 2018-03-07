@@ -9,11 +9,68 @@ public class Accept implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+    private String interviewStatus;
+    private Integer interviewId;
+	private String delayTime;
+	private String interviewTime;
+	private String positionId;//职位id
 	private String positionName;
 	private String postTime;
-	private Integer postId;
-	  public Integer getPostId() {
+	private Integer postId;//简历投递id
+    private Integer resumeId;//简历id
+    private Integer userId;
+    private String userName;
+    private String userGender;
+    private Date userBirthday;
+    private String userEducation;
+    private String userWorkyears;
+    private String userCity;
+    private String userEmail;
+    private String userPhone;
+    private String userImage;
+    private String userSelfvaluation;
+
+
+    public Integer geInterviewId() {
+        return interviewId;
+    }
+
+    public void setInterviewId(Integer interviewId) {
+        this.interviewId = interviewId;
+    }
+    public String getInterviewStatus() {
+		return interviewStatus;
+	}
+
+	public void setInterviewStatus(String interviewStatus) {
+		this.interviewStatus = interviewStatus;
+	}
+
+	public String getDelayTime() {
+		return delayTime;
+	}
+
+	public void setDelayTime(String delayTime) {
+		this.delayTime = delayTime;
+	}
+
+	public String getInterviewTime() {
+		return interviewTime;
+	}
+
+	public void setInterviewTime(String interviewTime) {
+		this.interviewTime = interviewTime;
+	}
+
+	public String getPositionId() {
+		return positionId;
+	}
+
+	public void setPositionId(String positionId) {
+		this.positionId = positionId;
+	}
+
+	public Integer getPostId() {
 		return postId;
 	}
 
@@ -21,68 +78,7 @@ public class Accept implements Serializable{
 		this.postId = postId;
 	}
 
-	/**
-     * 主键，自增
-     */
-    private Integer resumeId;
-
-    /**
-     * 外键，关联用户表
-     */
-    private Integer userId;
-
-    /**
-     * 简历用户姓名
-     */
-    private String userName;
-
-    /**
-     * 用户性别
-     */
-    private String userGender;
-
-    /**
-     * 用户生日，年/月
-     */
-    private String userBirthday;
-
-    /**
-     * 用户最高学历【大专、本、硕、博、其它】
-     */
-    private String userEducation;
-
-    /**
-     * 用户最高年限【应届毕业生、1、2、3~10、10年以上】
-     */
-    private String userWorkyears;
-
-    /**
-     * 所在城市
-     */
-    private String userCity;
-
-    /**
-     * 用户邮箱
-     */
-    private String userEmail;
-
-    /**
-     * 用户电话号码
-     */
-    private String userPhone;
-
-    /**
-     * 用户头像地址,可为空
-     */
-    private String userImage;
-
-    /**
-     * 用户一句话自我评价
-     */
-    private String userSelfvaluation;
-
-
-    public String getPositionName() {
+	public String getPositionName() {
 		return positionName;
 	}
 
@@ -130,11 +126,11 @@ public class Accept implements Serializable{
         this.userGender = userGender;
     }
 
-    public String getUserBirthday() {
+    public Date getUserBirthday() {
         return userBirthday;
     }
 
-    public void setUserBirthday(String userBirthday) {
+    public void setUserBirthday(Date userBirthday) {
         this.userBirthday = userBirthday;
     }
 

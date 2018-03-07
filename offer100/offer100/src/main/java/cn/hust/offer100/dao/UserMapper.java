@@ -1,5 +1,5 @@
 package cn.hust.offer100.dao;
-
-public interface UserMapper {
+import cn.hust.offer100.pojo.User;
+public interface UserMapper extends BaseDao<User>{
     
 }

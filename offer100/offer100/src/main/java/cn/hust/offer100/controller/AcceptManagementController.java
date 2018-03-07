@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.hust.offer100.dto.Accept;
 import cn.hust.offer100.service.impl.PositionService;
@@ -19,6 +20,7 @@ import com.github.pagehelper.PageInfo;
 public class AcceptManagementController {
 	@Autowired
 	private PositionService positionService;
+	@ResponseBody
 	@RequestMapping("/findAll")
 	public PageInfo<Accept> findAll(int currentPage, int pageSize ,String status ,String userName ,HttpSession session){
 		Map<String,Object> map=new HashMap<String,Object>();
@@ -31,10 +33,11 @@ public class AcceptManagementController {
 	}
 	
 	@RequestMapping("/updateStatus")
-	public String updateStatus(String status ,int id){
+	public String updateStatus(String status ,int id,String reason){
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("status", status);
 		map.put("id", id);
+		map.put("reason", reason);
 		return positionService.updateAccept(map);
 	}
 }

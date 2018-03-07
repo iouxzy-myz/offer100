@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.hust.offer100.dao.PositionMapper;
 import cn.hust.offer100.dto.Accept;
+import cn.hust.offer100.pojo.Interview;
 import cn.hust.offer100.pojo.Position;
 
 import com.github.pagehelper.PageHelper;
@@ -52,11 +53,13 @@ public class PositionService {
 		return "删除成功";
 	}
 	
+	public Position get(Position p){
+		return dao.get(p);
+	}
 	public PageInfo<Accept> findAccept(Map<String,Object> map){
 		PageHelper.startPage((int)map.get("currentPage"),(int)map.get("pageSize"));
-		map.put("positionStatus", "1");
 		List<Accept> list=dao.findAccept(map);
-		
+		map.put("positionStatus", "1");
 		PageInfo<Accept> dto= new PageInfo<>(list);
 		return dto;
 	}
@@ -65,4 +68,18 @@ public class PositionService {
 		 dao.updateAccept(map);
 		 return "修改成功";
 	}
+	
+	public String downPosition(Map<String,Object> map){
+		dao.downPosition(map);
+		return "修改成功";
+	}
+	public String insertInterview(Interview i){
+		dao.insertInterview(i);
+		return "保存成功";
+	}
+	public String updateInterview(Interview i){
+		dao.updateInterview(i);
+		return "修改成功";
+	}
+	
 }

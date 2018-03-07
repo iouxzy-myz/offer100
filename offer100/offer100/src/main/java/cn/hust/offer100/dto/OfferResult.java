@@ -21,6 +21,8 @@ public class OfferResult implements Serializable{
 	
 	//响应中的数据 暂时为跳转链接
 	private String url;
+	//返回的实体类
+	private Object entity;
 	
 	public OfferResult(){};
 	
@@ -34,6 +36,14 @@ public class OfferResult implements Serializable{
 		this.status = status;
 		this.msg = msg;
 	}
+	
+	public OfferResult(Integer status, String msg,Object obj) {
+		super();
+		this.status = status;
+		this.msg = msg;
+		this.entity = obj;
+	}
+	
 	
 	public OfferResult(Integer status, String msg, String url) {
 		super();
@@ -64,6 +74,20 @@ public class OfferResult implements Serializable{
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	/**
+	 * @return the entity
+	 */
+	public Object getEntity() {
+		return entity;
+	}
+
+	/**
+	 * @param entity the entity to set
+	 */
+	public void setEntity(Object entity) {
+		this.entity = entity;
 	}
 	
 

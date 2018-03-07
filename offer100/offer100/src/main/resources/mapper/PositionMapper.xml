@@ -30,7 +30,7 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="user_gender" jdbcType="VARCHAR" property="userGender" />
-    <result column="user_birthday" jdbcType="VARCHAR" property="userBirthday" />
+    <result column="user_birthday" jdbcType="TIMESTAMP" property="userBirthday" />
     <result column="user_education" jdbcType="VARCHAR" property="userEducation" />
     <result column="user_workyears" jdbcType="VARCHAR" property="userWorkyears" />
     <result column="user_city" jdbcType="VARCHAR" property="userCity" />
@@ -41,6 +41,11 @@
     <result column="positionName" jdbcType="VARCHAR" property="positionName" />
     <result column="postTime" jdbcType="VARCHAR" property="postTime" />
     <result column="postId" jdbcType="VARCHAR" property="postId" />
+    <result column="positionId" jdbcType="VARCHAR" property="positionId" />
+    <result column="interviewStatus" jdbcType="VARCHAR" property="interviewStatus" />
+    <result column="delayTime" jdbcType="VARCHAR" property="delayTime" />
+    <result column="interviewTime" jdbcType="VARCHAR" property="interviewTime" />
+    <result column="interviewId" jdbcType="VARCHAR" property="interviewTimeId" />
  </resultMap>
    <select id="findList" resultMap='BaseResultMap'>
   	SELECT p.*,i.num,date_format(p.position_creattime, '%Y-%m-%d %H:%i:%s') as time FROM position as p LEFT JOIN 
@@ -48,7 +53,7 @@
 	p.id=i.position_id
   	<where>
   	  <if test="userId != null and userId''">
-       and p.user_id = #{userId}
+       p.user_id = #{userId}
       </if>
       <if test="positionName != null and positionName!=''">
        and p.position_name like concat('%',#{positionName},'%')
@@ -146,11 +151,16 @@
  </select>
  
  <select id="findAccept" resultMap="resultAccept">
- SELECT f.*,p.position_name as positionName,date_format(b.post_time, '%Y-%m-%d %H:%i:%s') as postTime 
- ,b.id as postId
+ SELECT f.*,p.position_name as positionName,p.id as positionId,
+ date_format(b.post_time, '%Y-%m-%d %H:%i:%s') as postTime 
+ ,b.id as postId,
+i.status as interviewStatus,i.id as interviewId,
+date_format(i.delay_time, '%Y-%m-%d %H:%i:%s') as delayTime,
+date_format(i.interview_time, '%Y-%m-%d %H:%i:%s')as interviewTime
  FROM 
 position as p  JOIN post_box as b on p.id=b.position_id 
- JOIN resume_fundation as f ON f.resume_id=b.resume_id
+ JOIN resume_fundation as f ON f.resume_id=b.resume_id left join 
+interview as i ON i.resume_id= f.resume_id and i.position_id=p.id 
  <where>
   and p.user_id=#{userId}
   and p.position_status=#{positionStatus}
@@ -162,6 +172,63 @@ position as p  JOIN post_box as b on p.id=b.position_id
  </select>
  
  <select id="updateAccept">
- 	update post_box as b set b.status=#{status} where id=#{id} 
+ 	update post_box as b 
+      <set>
+      <if test="reason != null">
+        b.reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        b.status = #{status,jdbcType=CHAR},
+      </if>
+      </set>
+      where b.id=#{id}
  </select>
+ 
+ <update id="downPosition">
+ 	update post_box as b set b.status=#{status},b.reason=#{reason} where position_id=#{positionId}
+ </update>
+ 
+  <insert id="insertInterview" parameterType="Interview">
+    insert into interview ( resume_id, user_id, 
+      position_id, interview_time, interview_address, 
+      contact_user, contact_phone, status)
+    values ( #{resumeId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{positionId,jdbcType=INTEGER}, #{interviewTime,jdbcType=TIMESTAMP}, #{interviewAddress,jdbcType=VARCHAR}, 
+      #{contactUser,jdbcType=VARCHAR}, #{contactPhone,jdbcType=VARCHAR}, #{status,jdbcType=CHAR})
+  </insert>
+  
+  <update id="updateInterview" >
+    update interview
+    <set>
+      <if test="resumeId != null">
+        resume_id = #{resumeId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="positionId != null">
+        position_id = #{positionId,jdbcType=INTEGER},
+      </if>
+      <if test="interviewTime != null">
+        interview_time = #{interviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="interviewAddress != null">
+        interview_address = #{interviewAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="contactUser != null">
+        contact_user = #{contactUser,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null">
+        contact_phone = #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=CHAR},
+      </if>
+         <if test="delay_time != null">
+        delay_time = #{delayTime,jdbcType=TIMESTAMP},
+        </if>
+    </set>
+    where id=#{id}
+  </update>
+
 </mapper>
