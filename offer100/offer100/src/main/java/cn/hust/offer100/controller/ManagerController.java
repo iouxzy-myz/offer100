@@ -32,11 +32,7 @@ public class ManagerController {
 //		users.put("UserList", managerService.findAll());
 //		return users;
 //	}
-	@RequestMapping("/findAll")
-	@ResponseBody
-	public OfferResult findAll(){
-		return new OfferResult(200,"成功",managerService.findAll());
-}
+
 	
 	@RequestMapping("/save")
 	@ResponseBody

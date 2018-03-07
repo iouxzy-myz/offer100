@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,9 +22,9 @@ import cn.hust.offer100.pojo.Position;
 import cn.hust.offer100.service.impl.PositionService;
 
 
-
+@CrossOrigin(origins = "http://115.156.129.209:4200", maxAge = 3600)
 @Controller
-@RequestMapping("/position")
+@RequestMapping("/positionController")
 public class PositionController {
 
 	@Autowired
@@ -40,7 +41,9 @@ public class PositionController {
 		// SimpleDateFormat sDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		// Date date=sDateFormat.parse(time);
 		// p.setPositionCreattime(date);
-		p.setUserId((Integer) session.getAttribute("userId"));
+		//暂时不需要 p.setUserId((Integer) session.getAttribute("userId"));
+		p.setUserId(5);
+		p.setPositionStatus("0");
 		return positionService.save(p);
 	}
 	

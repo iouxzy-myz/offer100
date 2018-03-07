@@ -36,6 +36,11 @@ public class OfferResult implements Serializable{
 		this.status = status;
 		this.msg = msg;
 	}
+	public OfferResult(Integer status,Object obj) {
+		super();
+		this.status = status;
+		this.entity = obj;
+	}
 	
 	public OfferResult(Integer status, String msg,Object obj) {
 		super();

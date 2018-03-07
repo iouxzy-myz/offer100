@@ -56,12 +56,13 @@ public class PositionService {
 	public Position get(Position p){
 		return dao.get(p);
 	}
-	public PageInfo<Accept> findAccept(Map<String,Object> map){
-		PageHelper.startPage((int)map.get("currentPage"),(int)map.get("pageSize"));
+//	public PageInfo<Accept> findAccept(Map<String,Object> map){
+	public List<Accept> findAccept(Map<String,Object> map){
+		//PageHelper.startPage((int)map.get("currentPage"),(int)map.get("pageSize"));
 		List<Accept> list=dao.findAccept(map);
-		map.put("positionStatus", "1");
-		PageInfo<Accept> dto= new PageInfo<>(list);
-		return dto;
+		//map.put("positionStatus", "1");
+		//PageInfo<Accept> dto= new PageInfo<>(list);
+		return list;
 	}
 	
 	public String updateAccept(Map<String,Object> map){
