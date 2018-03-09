@@ -25,7 +25,7 @@ public class ResumeInterships implements Serializable {
     /**
      * 实习职位
      */
-    private String intershiPosition;
+    private String intershipPosition;
 
     /**
      * 实习开始时间，年月
@@ -69,11 +69,11 @@ public class ResumeInterships implements Serializable {
     }
 
     public String getIntershiPosition() {
-        return intershiPosition;
+        return intershipPosition;
     }
 
-    public void setIntershiPosition(String intershiPosition) {
-        this.intershiPosition = intershiPosition;
+    public void setIntershiPosition(String intershipPosition) {
+        this.intershipPosition = intershipPosition;
     }
 
     public String getIntershipStartdate() {

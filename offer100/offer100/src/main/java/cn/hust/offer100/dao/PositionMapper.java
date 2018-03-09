@@ -10,8 +10,9 @@ import cn.hust.offer100.pojo.Position;
 public interface PositionMapper extends BaseDao<Position>{
 	Integer findEnterprise(Map<String,Object> map); 
 	List<Accept> findAccept(Map<String,Object> map);
-	String updateAccept(Map<String,Object> map);
-	String downPosition(Map<String,Object> map);
-	String insertInterview(Interview i);
-	String updateInterview(Interview i);
+	Integer updateAccept(Map<String,Object> map);
+	Integer downPosition(Map<String,Object> map);
+	Integer insertInterview(Interview i);
+	Integer updateInterview(Interview i);
+	List<Position> findAll(Map<String,Object> map);
 }

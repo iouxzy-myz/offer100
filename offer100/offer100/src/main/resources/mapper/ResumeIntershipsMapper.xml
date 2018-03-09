@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="resume_id" jdbcType="INTEGER" property="resumeId" />
     <result column="intership_enterprise" jdbcType="VARCHAR" property="intershipEnterprise" />
-    <result column="intershi_position" jdbcType="VARCHAR" property="intershiPosition" />
+    <result column="intership_position" jdbcType="VARCHAR" property="intershipPosition" />
     <result column="intership_startdate" jdbcType="VARCHAR" property="intershipStartdate" />
     <result column="intership_enddate" jdbcType="VARCHAR" property="intershipEnddate" />
     <result column="intership_content" jdbcType="VARCHAR" property="intershipContent" />

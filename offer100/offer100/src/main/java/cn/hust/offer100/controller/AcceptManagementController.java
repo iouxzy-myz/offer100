@@ -18,9 +18,9 @@ import cn.hust.offer100.service.impl.PositionService;
 
 import com.github.pagehelper.PageInfo;
 
-@CrossOrigin(origins = "http://115.156.129.209:4200", maxAge = 3600)
+
 @Controller
-@RequestMapping("/accept")
+@RequestMapping("/acceptManagementController")
 public class AcceptManagementController {
 	@Autowired
 	private PositionService positionService;
@@ -37,15 +37,24 @@ public class AcceptManagementController {
 		map.put("userId", 4);
 		map.put("userName", userName);
 		map.put("status", 0);
-		return new OfferResult(200,positionService.findAccept(map));
+		List<Accept> lists = positionService.findAccept(map);
+		if(lists != null)
+			return new OfferResult(200,lists);
+		else
+			return new OfferResult(400,"查询失败");
 	}
 	
 	@RequestMapping("/updateStatus")
-	public String updateStatus(String status ,int id,String reason){
+	public OfferResult updateStatus(String status ,int id,String reason){
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("status", status);
 		map.put("id", id);
 		map.put("reason", reason);
-		return positionService.updateAccept(map);
+		int affectedRows =  positionService.updateAccept(map);
+		if(affectedRows > 0) {
+			return new OfferResult(200);
+		}
+		else 
+			return new OfferResult(400,"职位添加失败");
 	}
 }

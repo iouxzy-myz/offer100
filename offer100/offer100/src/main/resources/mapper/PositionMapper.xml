@@ -47,38 +47,39 @@
     <result column="interviewTime" jdbcType="VARCHAR" property="interviewTime" />
     <result column="interviewId" jdbcType="VARCHAR" property="interviewTimeId" />
  </resultMap>
-   <select id="findList" resultMap='BaseResultMap'>
+   <select id="findAll" resultMap='BaseResultMap'>
   	SELECT p.*,i.num,date_format(p.position_creattime, '%Y-%m-%d %H:%i:%s') as time FROM position as p LEFT JOIN 
 	(SELECT position_id,count(position_id) as num FROM post_box as i GROUP BY i.position_id) as i ON 
 	p.id=i.position_id
   	<where>
-  	  <if test="userId != null and userId''">
+  	  <if test="userId != null and userId !=''">
        p.user_id = #{userId}
       </if>
-      <if test="positionName != null and positionName!=''">
+      <if test="positionName != null and positionName != '' ">
        and p.position_name like concat('%',#{positionName},'%')
       </if>
-      <if test="positionStatus != null and positionStatus!=''">
+      <if test="positionStatus != null and positionStatus != '' ">
        and p.position_status = #{positionStatus,jdbcType=CHAR}
+      </if>
+       <if test="status != null and status != '' ">
+       or p.position_status = #{status,jdbcType=CHAR}
       </if>
       </where>
   </select>
  
- <select id="save">
+ <select id="save" resultType="java.lang.Integer">
       insert into position ( enterprise_id, user_id, 
       position_name, position_category, position_num, 
       position_address, position_city, position_temptation, 
       position_details, position_minwage, position_maxwage, 
       position_experience, position_education, 
-      position_creattime, position_nature, position_status, 
-      position_reason)
+      position_nature, position_status)
     values ( #{enterpriseId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{positionName,jdbcType=VARCHAR}, #{positionCategory,jdbcType=VARCHAR}, #{positionNum,jdbcType=INTEGER}, 
       #{positionAddress,jdbcType=VARCHAR}, #{positionCity,jdbcType=VARCHAR}, #{positionTemptation,jdbcType=VARCHAR}, 
       #{positionDetails,jdbcType=VARCHAR}, #{positionMinwage,jdbcType=INTEGER}, #{positionMaxwage,jdbcType=INTEGER}, 
       #{positionExperience,jdbcType=VARCHAR}, #{positionEducation,jdbcType=VARCHAR}, 
-      #{positionCreattime,jdbcType=TIMESTAMP}, #{positionNature,jdbcType=VARCHAR}, #{positionStatus,jdbcType=CHAR}, 
-      #{positionReason,jdbcType=VARCHAR})
+      #{positionNature,jdbcType=VARCHAR}, #{positionStatus,jdbcType=CHAR})
  </select>
  <select id="update">
   update position
@@ -142,7 +143,7 @@
   update position set position_status=#{positionStatus} where id=#{id}
  </select>
  
- <select id="get">
+ <select id="get" resultType = "Position">
  select *from position where id=#{id}
  </select>
  

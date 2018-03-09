@@ -22,35 +22,37 @@ import com.github.pagehelper.PageInfo;
 @Transactional
 public class PositionService {
 	@Autowired PositionMapper dao;
-	public String save(Position p){
+	public Integer save(Position p){
 		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("userId","1" /*p.getUserId()*/);
+		map.put("userId",5 /*p.getUserId()*/);
 		
 		p.setEnterpriseId(dao.findEnterprise(map));
-		dao.save(p);
-		return "保存成功";
+		return dao.save(p);
+		
 	}
 	
-	public PageInfo<Position> findPage(int currentPage ,int pageSize ,String status ,String positionName ,HttpSession session){
-		 PageHelper.startPage(currentPage, pageSize);
-		 Position p=new Position();
-		 p.setPositionName(positionName);
-		 p.setPositionStatus(status);
-		 p.setUserId((Integer) session.getAttribute("userId"));
-		 List<Position> list=dao.findList(p);
-		 PageInfo<Position> dto= new PageInfo<>(list);
-		 return dto;
+//	public PageInfo<Position> findPage(int currentPage ,int pageSize ,String status ,String positionName ,HttpSession session){
+	public List<Position> findPage(String positionStatus ,String positionName ,HttpSession session){		
+		 //PageHelper.startPage(currentPage, pageSize);
+		 Map<String, Object> map=new HashMap<String, Object>();
+		 map.put("positionName", positionName);
+		 map.put("userId", 4);
+		 map.put("positionStatus", positionStatus);
+		 if(positionStatus.equals("0"))
+			 map.put("status", "3");
+		 //p.setUserId((Integer) session.getAttribute("userId"));
+		 List<Position> list=dao.findAll(map);
+		 //PageInfo<Position> dto= new PageInfo<>(list);
+		 return list;
 	}
 	
-	public String update(Position p){
-		dao.update(p);
-		return "修改成功";
+	public Integer update(Position p){
+		return dao.update(p);
 	}
 	
-	public String delect(Position p){
+	public Integer delect(Position p){
 		p.setPositionStatus("-1");
-		dao.delete(p);
-		return "删除成功";
+		return dao.delete(p);
 	}
 	
 	public Position get(Position p){
@@ -65,22 +67,22 @@ public class PositionService {
 		return list;
 	}
 	
-	public String updateAccept(Map<String,Object> map){
-		 dao.updateAccept(map);
-		 return "修改成功";
+	public Integer updateAccept(Map<String,Object> map){
+		 return dao.updateAccept(map);
+		
 	}
 	
-	public String downPosition(Map<String,Object> map){
-		dao.downPosition(map);
-		return "修改成功";
+	public Integer downPosition(Map<String,Object> map){
+		return dao.downPosition(map);
+
 	}
-	public String insertInterview(Interview i){
-		dao.insertInterview(i);
-		return "保存成功";
+	public Integer insertInterview(Interview i){
+		return dao.insertInterview(i);
+
 	}
-	public String updateInterview(Interview i){
-		dao.updateInterview(i);
-		return "修改成功";
+	public Integer updateInterview(Interview i){
+		return dao.updateInterview(i);
+		
 	}
 	
 }

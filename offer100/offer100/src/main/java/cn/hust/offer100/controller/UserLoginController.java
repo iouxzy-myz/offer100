@@ -22,7 +22,7 @@ import cn.hust.offer100.service.impl.UserServiceImpl;
  */
 
 @Controller
-@SessionAttributes("user")
+@SessionAttributes("userLoginController")
 public class UserLoginController {
 	
 
