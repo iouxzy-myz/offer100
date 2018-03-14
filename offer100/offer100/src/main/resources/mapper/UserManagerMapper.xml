@@ -1,12 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.hust.offer100.dao.UserDao">
+<mapper namespace="cn.hust.offer100.dao.UserManagerMapper">
   <resultMap id="BaseResultMap" type="cn.hust.offer100.pojo.User">
     <id column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
     <result column="user_type" jdbcType="VARCHAR" property="userType" />
   </resultMap>
+  
+   <select id="findList" resultMap='BaseResultMap'>
+  	SELECT *
+    from user
+  	<where>
+  	  <if test="userId != null ">
+       user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="userName != null">
+       and user_name like concat('%',#{userName},'%')
+      </if>
+      <if test="userType != null">
+       and user_type = #{userType,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <insert id="save" keyProperty="userId">
+   insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="userPassword != null">
+        user_password,
+      </if>
+      <if test="userType != null">
+        user_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="update">
+    update user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        user_password = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="delete" parameterType="java.lang.Integer">
+    delete from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  
   
   	<select id="findByUser" resultType="User" >
 
@@ -20,12 +87,13 @@
 			</if>
 		</where>
 	</select>
-		<select id="findByUserId" resultType="User" >
-
-		select * from user 
+		
+	<select id="findByUserId" parameterType="java.lang.Integer" resultType="User" >
+		select * 
+		from user 
 		<where>
-			<if test="userName != null">
-			user_id = #{userId}
+			<if test="userId != null">
+			user_id = #{userId,jdbcType=INTEGER}
 			</if>
 		</where>
 	</select>
@@ -38,11 +106,11 @@
 			</if>
 		</where>
 	</select>
-	<select id="save">
+	<!-- <select id="save">
 	  insert into user ( user_name,user_password,user_type)
     values (#{userName,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR},#{userType,jdbcType=VARCHAR})
-	</select>
-	<select id="updatePassword">
+	</select> -->
+	<select id="updatePassword" > 
 		update user
 		<set>
 		<if test="newPassword != null">

@@ -66,6 +66,16 @@ public class Enterprise implements Serializable {
      */
     private String enterpriseDetails;
     
+    /**
+     * 审核状态，默认 0 待审核，1，审核通过，2 审核不通过
+     */
+    private String status;
+
+    /**
+     * 审核不通过原因，默认空
+     */
+    private String reason;
+    
 
     private static final long serialVersionUID = 1L;
 
@@ -164,4 +174,33 @@ public class Enterprise implements Serializable {
     public void setEnterpriseDetails(String enterpriseDetails) {
         this.enterpriseDetails = enterpriseDetails;
     }
+
+	/**
+	 * @return the status
+	 */
+	public String getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	/**
+	 * @return the reason
+	 */
+	public String getReason() {
+		return reason;
+	}
+
+	/**
+	 * @param reason the reason to set
+	 */
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+    
 }

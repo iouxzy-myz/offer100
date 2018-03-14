@@ -19,8 +19,8 @@ public class OfferResult implements Serializable{
 	//响应消息 类似提示信息如注册名存在，用户名或密码错误
 	private String msg;
 	
-	//响应中的数据 暂时为跳转链接
-	private String url;
+	//响应中的数据
+	private String userType;
 	//返回的实体类
 	private Object entity;
 	
@@ -36,26 +36,26 @@ public class OfferResult implements Serializable{
 		this.status = status;
 		this.msg = msg;
 	}
-	public OfferResult(Integer status,Object obj) {
+//	public OfferResult(Integer status,Object obj) {
+//		super();
+//		this.status = status;
+//		this.entity = obj;
+//	}
+	
+	public OfferResult(Integer status, String userType,Object obj) {
 		super();
 		this.status = status;
+		this.userType = userType;
 		this.entity = obj;
 	}
 	
-	public OfferResult(Integer status, String msg,Object obj) {
-		super();
-		this.status = status;
-		this.msg = msg;
-		this.entity = obj;
-	}
-	
-	
-	public OfferResult(Integer status, String msg, String url) {
-		super();
-		this.status = status;
-		this.msg = msg;
-		this.url = url;
-	}
+//	
+//	public OfferResult(Integer status, String msg, String userType) {
+//		super();
+//		this.status = status;
+//		this.msg = msg;
+//		this.userType = userType;
+//	}
 
 	public Integer getStatus() {
 		return status;
@@ -73,13 +73,6 @@ public class OfferResult implements Serializable{
 		this.msg = msg;
 	}
 
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
 
 	/**
 	 * @return the entity
@@ -93,6 +86,20 @@ public class OfferResult implements Serializable{
 	 */
 	public void setEntity(Object entity) {
 		this.entity = entity;
+	}
+
+	/**
+	 * @return the userType
+	 */
+	public String getUserType() {
+		return userType;
+	}
+
+	/**
+	 * @param userType the userType to set
+	 */
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 	
 

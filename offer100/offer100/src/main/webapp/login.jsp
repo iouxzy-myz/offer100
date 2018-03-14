@@ -9,9 +9,9 @@
 </head>
 
 <body>
-    <form action="/ssm/user/login" method="post" id="myform">
-        <input type="text" id="username" name="username"/>
-        <input type="password" id="password" name="password"/>
+    <form action="http://localhost:8080/offer100/loginController/login" method="post" id="myform">
+        <input type="text" id="userName" name="username"/>
+        <input type="password" id="userPassword" name="password"/>
         <input type="submit" value="提交" id="login" />
     </form>
 </body>

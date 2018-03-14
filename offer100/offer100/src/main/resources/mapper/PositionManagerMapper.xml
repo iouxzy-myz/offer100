@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.hust.offer100.dao.PositionMapper">
+<mapper namespace="cn.hust.offer100.dao.PositionManagerMapper">
   <resultMap id="BaseResultMap" type="cn.hust.offer100.pojo.Position">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="enterprise_id" jdbcType="INTEGER" property="enterpriseId" />
@@ -38,36 +38,43 @@
     <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
     <result column="user_image" jdbcType="VARCHAR" property="userImage" />
     <result column="user_selfvaluation" jdbcType="VARCHAR" property="userSelfvaluation" />
+    <result column="user_educationexperience" jdbcType="VARCHAR" property="userEducationexperience" />
+    <result column="user_interships" jdbcType="VARCHAR" property="userInterships" />
+    <result column="user_project" jdbcType="VARCHAR" property="userProject" />
+    <result column="user_introduction" jdbcType="VARCHAR" property="userIntroduction" />
     <result column="positionName" jdbcType="VARCHAR" property="positionName" />
     <result column="postTime" jdbcType="VARCHAR" property="postTime" />
-    <result column="postId" jdbcType="VARCHAR" property="postId" />
-    <result column="positionId" jdbcType="VARCHAR" property="positionId" />
+    <result column="postId" jdbcType="INTEGER" property="postId" />
+    <result column="positionId" jdbcType="INTEGER" property="positionId" />
     <result column="interviewStatus" jdbcType="VARCHAR" property="interviewStatus" />
+    <result column="interviewId" jdbcType="INTEGER" property="interviewId" />
     <result column="delayTime" jdbcType="VARCHAR" property="delayTime" />
     <result column="interviewTime" jdbcType="VARCHAR" property="interviewTime" />
-    <result column="interviewId" jdbcType="VARCHAR" property="interviewTimeId" />
+    
+
  </resultMap>
    <select id="findAll" resultMap='BaseResultMap'>
   	SELECT p.*,i.num,date_format(p.position_creattime, '%Y-%m-%d %H:%i:%s') as time FROM position as p LEFT JOIN 
 	(SELECT position_id,count(position_id) as num FROM post_box as i GROUP BY i.position_id) as i ON 
 	p.id=i.position_id
   	<where>
-  	  <if test="userId != null and userId !=''">
-       p.user_id = #{userId}
-      </if>
-      <if test="positionName != null and positionName != '' ">
-       and p.position_name like concat('%',#{positionName},'%')
-      </if>
-      <if test="positionStatus != null and positionStatus != '' ">
-       and p.position_status = #{positionStatus,jdbcType=CHAR}
+  	  <if test="positionStatus != null and positionStatus != '' ">
+      ( p.position_status = #{positionStatus,jdbcType=CHAR}
       </if>
        <if test="status != null and status != '' ">
        or p.position_status = #{status,jdbcType=CHAR}
       </if>
+      )
+  	  <if test="userId != null and userId !=''">
+       and p.user_id = #{userId} 
+      </if>
+      <if test="positionName != null and positionName != '' ">
+       and p.position_name like concat('%',#{positionName},'%'
+      </if>
       </where>
   </select>
  
- <select id="save" resultType="java.lang.Integer">
+ <select id="save" >
       insert into position ( enterprise_id, user_id, 
       position_name, position_category, position_num, 
       position_address, position_city, position_temptation, 
@@ -139,7 +146,65 @@
     where id = #{id,jdbcType=INTEGER}
  </select>
  
- <select id="delect">
+ <select id="updatePositionStatus">
+  update position
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="positionName != null">
+        position_name = #{positionName,jdbcType=VARCHAR},
+      </if>
+      <if test="positionCategory != null">
+        position_category = #{positionCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="positionNum != null">
+        position_num = #{positionNum,jdbcType=INTEGER},
+      </if>
+      <if test="positionAddress != null">
+        position_address = #{positionAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="positionCity != null">
+        position_city = #{positionCity,jdbcType=VARCHAR},
+      </if>
+      <if test="positionTemptation != null">
+        position_temptation = #{positionTemptation,jdbcType=VARCHAR},
+      </if>
+      <if test="positionDetails != null">
+        position_details = #{positionDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="positionMinwage != null">
+        position_minwage = #{positionMinwage,jdbcType=INTEGER},
+      </if>
+      <if test="positionMaxwage != null">
+        position_maxwage = #{positionMaxwage,jdbcType=INTEGER},
+      </if>
+      <if test="positionExperience != null">
+        position_experience = #{positionExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="positionEducation != null">
+        position_education = #{positionEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="positionCreattime != null">
+        position_creattime = #{positionCreattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="positionNature != null">
+        position_nature = #{positionNature,jdbcType=VARCHAR},
+      </if>
+      <if test="positionStatus != null">
+        position_status = #{positionStatus,jdbcType=CHAR},
+      </if>
+      <if test="positionReason != null">
+        position_reason = #{positionReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+ </select>
+ 
+ <select id="delete">
   update position set position_status=#{positionStatus} where id=#{id}
  </select>
  
@@ -165,9 +230,20 @@ interview as i ON i.resume_id= f.resume_id and i.position_id=p.id
  <where>
   and p.user_id=#{userId}
   and p.position_status=#{positionStatus}
+  <if test="status!=null and status!=''">
   and b.status=#{status}
+  </if>
   <if test="userName!=null and userName!=''">
-  and user_name like concat('%',#{userName},'%')
+  and f.user_name like concat('%',#{userName},'%')
+  </if>
+   <if test="city!=null and city!=''">
+  and f.user_city like concat('%',#{city},'%')
+  </if>
+   <if test="education!=null and education!=''">
+  and f.user_education like concat('%',#{education},'%')
+  </if>
+  <if test="gender!=null and gender!=''">
+  and f.user_gender like concat('%',#{gender},'%')
   </if>
  </where>
  </select>
@@ -231,5 +307,52 @@ interview as i ON i.resume_id= f.resume_id and i.position_id=p.id
     </set>
     where id=#{id}
   </update>
+  
+   <select id="findList" resultType='Position'>
+  	SELECT p.*,date_format(p.position_creattime, '%Y-%m-%d %H:%i:%s') as time
+    from position as p
+  	<where>
+  	  <if test="id != null ">
+       id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="positionName != null">
+       and position_name like concat('%',#{positionName},'%')
+      </if>
+      <if test="positionStatus != null">
+       and position_status = #{positionStatus,jdbcType=CHAR}
+      </if>
+    </where>
+  </select>
+  
+  <select id="getInterviewNum" resultType="java.lang.Integer">
+ 	select count(*) 
+ 	from interview
+    where user_id=#{userId}
+  </select>
+  
+   <select id="getPositionNum" resultType="java.lang.Integer">
+ 	select count(*) 
+ 	from position
+    where user_id=#{userId}
+   </select>
+     
+   <select id="getPostNum" resultType="java.lang.Integer">
+	SELECT COUNT(*)
+	FROM post_box
+	WHERE position_id IN (
+	SELECT id
+	FROM position
+	WHERE user_id=#{userId}
 
+	)
+   </select>
+   
+   <select id="findInterview" resultType="cn.hust.offer100.dto.InterviewDto">
+   select r.user_name as userName,date_format(i.interview_time, '%Y-%m-%d %H:%i:%s')as interviewTime,p.position_name as positionName
+   from interview as i join resume_fundation as r on i.resume_id = r.resume_id 
+   join position as p on i.position_id = p.id
+   where i.user_id = #{userId} and i.interview_time <![CDATA[ >= ]]> NOW()
+
+   </select>
+   
 </mapper>

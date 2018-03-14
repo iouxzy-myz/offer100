@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.hust.offer100.dao.UserMapper;
+import cn.hust.offer100.dao.UserManagerMapper;
 import cn.hust.offer100.pojo.User;
 
 import com.github.pagehelper.PageHelper;
@@ -16,7 +16,7 @@ import com.github.pagehelper.PageInfo;
 @Service
 @Transactional
 public class ManagerService {
-	@Autowired UserMapper dao;
+	@Autowired UserManagerMapper dao;
 	public String save(User p){
 		dao.save(p);
 		return "保存成功";

@@ -23,8 +23,8 @@ public class CenterServiceimpl {
 	private EnterpriseMapper dao;
 	
 	public int save(Enterprise e) {
-		return dao.save(e);
-		
+		 dao.save(e);
+		return 1;
 	}
 	
 	public Enterprise get(Enterprise e) {
@@ -34,7 +34,8 @@ public class CenterServiceimpl {
 	}
 	
 	public int update(Enterprise e) {
-		return dao.update(e);
+		 dao.update(e);
+		 return 1;
 	}
 
 }

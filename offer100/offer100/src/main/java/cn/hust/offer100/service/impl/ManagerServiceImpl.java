@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import cn.hust.offer100.dao.EnterpriseMapper;
 import cn.hust.offer100.dao.ResumeFundationMapper;
-import cn.hust.offer100.dao.UserDao;
+import cn.hust.offer100.dao.UserManagerMapper;
 import cn.hust.offer100.pojo.Enterprise;
 import cn.hust.offer100.pojo.ResumeFundation;
 import cn.hust.offer100.pojo.User;
@@ -19,7 +19,7 @@ import cn.hust.offer100.pojo.User;
  */
 
 @Service
-public class UserServiceImpl {
+public class ManagerServiceImpl {
 	
 	@Autowired
 	private ResumeFundationMapper dao;
@@ -28,7 +28,7 @@ public class UserServiceImpl {
 	private EnterpriseMapper enterprisemapper;
 	
 	@Autowired
-	private UserDao userDao;
+	private UserManagerMapper userDao;
 
 	public User checkLogin(User user) {
         //User u= 
@@ -41,27 +41,31 @@ public class UserServiceImpl {
 	}
 
 	
-	public int addUser(User user) {
+	public Integer addUser(User user,Enterprise e) {
 		if(userDao.findByUserName(user) != null)
 			return 0;
 		else {
 			int affectedRows = userDao.save(user);
+			e.setUserId(user.getUserId());
+			enterprisemapper.save(e);
 			return affectedRows;
 		}
 	}
 	
-	public int changePassword(String oldPassword,String newPassword,Integer userId) {
+	public Integer changePassword(String oldPassword,String newPassword,Integer userId) {
 		User user = userDao.findByUserId(userId);
 		if(user != null)
 		{
 			if(user.getUserPassword().equals(oldPassword))
 			{
-				return userDao.updatePassword(userId,newPassword);
+				 userDao.updatePassword(userId,newPassword);
+				 return 1;
 			}
 			else
 				return 0;
 		}
-		return 0;
+		else
+			return 0;
 	}
 	
 	//check resume

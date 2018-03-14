@@ -13,7 +13,7 @@ public class Accept implements Serializable{
     private Integer interviewId;
 	private String delayTime;
 	private String interviewTime;
-	private String positionId;//职位id
+	private Integer positionId;//职位id
 	private String positionName;
 	private String postTime;
 	private Integer postId;//简历投递id
@@ -29,12 +29,19 @@ public class Accept implements Serializable{
     private String userPhone;
     private String userImage;
     private String userSelfvaluation;
+    private String userEducationexperience;
+    private String userInterships;
+    private String userProject;
+    private String userIntroduction;
 
 
-    public Integer geInterviewId() {
-        return interviewId;
-    }
-
+	/**
+	 * @return the interviewId
+	 */
+	public Integer getInterviewId() {
+		return interviewId;
+	}
+	
     public void setInterviewId(Integer interviewId) {
         this.interviewId = interviewId;
     }
@@ -62,11 +69,11 @@ public class Accept implements Serializable{
 		this.interviewTime = interviewTime;
 	}
 
-	public String getPositionId() {
+	public Integer getPositionId() {
 		return positionId;
 	}
 
-	public void setPositionId(String positionId) {
+	public void setPositionId(Integer positionId) {
 		this.positionId = positionId;
 	}
 
@@ -189,4 +196,63 @@ public class Accept implements Serializable{
     public void setUserSelfvaluation(String userSelfvaluation) {
         this.userSelfvaluation = userSelfvaluation;
     }
+
+	/**
+	 * @return the userEducationexperience
+	 */
+	public String getUserEducationexperience() {
+		return userEducationexperience;
+	}
+
+	/**
+	 * @param userEducationexperience the userEducationexperience to set
+	 */
+	public void setUserEducationexperience(String userEducationexperience) {
+		this.userEducationexperience = userEducationexperience;
+	}
+
+	/**
+	 * @return the userInterships
+	 */
+	public String getUserInterships() {
+		return userInterships;
+	}
+
+	/**
+	 * @param userInterships the userInterships to set
+	 */
+	public void setUserInterships(String userInterships) {
+		this.userInterships = userInterships;
+	}
+
+	/**
+	 * @return the userProject
+	 */
+	public String getUserProject() {
+		return userProject;
+	}
+
+	/**
+	 * @param userProject the userProject to set
+	 */
+	public void setUserProject(String userProject) {
+		this.userProject = userProject;
+	}
+
+	/**
+	 * @return the userIntroduction
+	 */
+	public String getUserIntroduction() {
+		return userIntroduction;
+	}
+
+	/**
+	 * @param userIntroduction the userIntroduction to set
+	 */
+	public void setUserIntroduction(String userIntroduction) {
+		this.userIntroduction = userIntroduction;
+	}
+
+	
+
 }

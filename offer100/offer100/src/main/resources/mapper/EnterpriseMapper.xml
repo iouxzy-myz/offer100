@@ -14,19 +14,22 @@
     <result column="enterprise_scale" jdbcType="VARCHAR" property="enterpriseScale" />
     <result column="enterprise_profile" jdbcType="VARCHAR" property="enterpriseProfile" />
     <result column="enterprise_details" jdbcType="VARCHAR" property="enterpriseDetails" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
   </resultMap>
   <select id="save">
       insert into enterprise ( user_id, enterprise_name,enterprise_logourl,
       enterprise_website, enterprise_phone, enterprise_email, 
       enterprise_city, enterprise_sector, enterprise_scale, 
-      enterprise_profile, enterprise_details)
+      enterprise_profile, enterprise_details,status)
     values ( #{userId,jdbcType=INTEGER}, 
       #{enterpriseName,jdbcType=VARCHAR}, #{enterpriseLogourl,jdbcType=VARCHAR}, 
       #{enterpriseWebsite,jdbcType=VARCHAR}, #{enterprisePhone,jdbcType=VARCHAR}, #{enterpriseEmail,jdbcType=VARCHAR}, 
       #{enterpriseCity,jdbcType=VARCHAR}, 
       #{enterpriseSector,jdbcType=VARCHAR}, #{enterpriseScale,jdbcType=VARCHAR}, 
       #{enterpriseProfile,jdbcType=VARCHAR},
-      #{enterpriseDetails,jdbcType=VARCHAR})
+      #{enterpriseDetails,jdbcType=VARCHAR},
+      #{status,jdbcType=CHAR})
   </select>
   
   
@@ -36,6 +39,12 @@
   where user_id = #{userId,jdbcType=INTEGER}
   </select>
   
+  
+<!--   <select id="findList" resultMap="BaseResultMap">
+  select * 
+  from enterprise
+  where status = '0'
+  </select> -->
   
   <select id="update" >
   update enterprise
@@ -70,9 +79,31 @@
       <if test="enterpriseProfile != null">
         enterprise_profile = #{enterpriseProfile,jdbcType=VARCHAR},
       </if>
+      <if test="status != null and status != '' ">
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="reason != null and reason != '' ">
+        reason = #{reason,jdbcType=VARCHAR}
+      </if>
     </set>
     where enterprise_id = #{enterpriseId,jdbcType=INTEGER}
   </select>
+  
+ <select id="findList" resultMap="BaseResultMap">
+  	SELECT *
+  	from enterprise
+  	<where>
+  	  <if test="enterpriseId != null ">
+       enterprise_id = #{enterpriseId,jdbcType=INTEGER}
+      </if>
+      <if test="enterpriseName != null">
+       and enterprise_name like concat('%',#{enterpriseName},'%')
+      </if>
+      <if test="status != null">
+       and status = #{status,jdbcType=CHAR}
+      </if>
+    </where>
+  </select> 
   <!-- <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

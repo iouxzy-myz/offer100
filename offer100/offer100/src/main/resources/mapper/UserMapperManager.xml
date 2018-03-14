@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.hust.offer100.dao.UserMapper">
+<mapper namespace="cn.hust.offer100.dao.Userdao">
   <resultMap id="BaseResultMap" type="cn.hust.offer100.pojo.User">
     <id column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
@@ -8,7 +8,7 @@
     <result column="user_type" jdbcType="VARCHAR" property="userType" />
   </resultMap>
   
-  <select id="findList" resultMap='BaseResultMap'>
+ <!--  <select id="findList" resultMap='BaseResultMap'>
   	SELECT *
     from user
   	<where>
@@ -72,7 +72,7 @@
   <select id="delete" parameterType="java.lang.Integer">
     delete from user
     where user_id = #{userId,jdbcType=INTEGER}
-  </select>
+  </select> -->
 
   <!-- <sql id="Example_Where_Clause">
     <where>
